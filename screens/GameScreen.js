@@ -1,25 +1,66 @@
 import React, {Component} from 'react';
 import {Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-export default class GameScreen extends Component{
+export default class GameScreen extends Component<Props>{
 
-  _onPressButton() {
-    Alert.alert('You tapped the button!')
+  constructor(props) {
+    super(props);
+    this.state = {
+      isHidden: true,
+      timer: null,
+      counter: 0
+    }
   }
 
   componentDidMount() {
-      setTimeout(() => {
-    }, 10000);
+    this.start();
+    setTimeout(() => {
+      this.setState({
+        isHidden: !this.state.isHidden
+      })
+  }, 1500);
+}
+start() {
+  var self = this;
+  let timer = setInterval(() => {
+    this.setState({
+      counter: this.state.counter + 1
+    })
+      var num = Number(this.state.miliseconds) + 1
+          
+  }, 0);
+  this.setState({timer});
+}
+
+
+  _onPressButton = () => {
+   
+    this.setState({
+      isHidden: !this.state.isHidden,
+    });
+    setTimeout(() => {
+      this.setState({
+        isHidden: !this.state.isHidden,
+      })
+  }, 1000);
   }
+
+
 
   render() {
     return (
       <View style={styles.container}>
-        <TouchableOpacity onPress={this._onPressButton}>
+        {
+          this.state.isHidden ? 
+          <View></View>
+          :
+          <TouchableOpacity onPress={this._onPressButton}>
           <View style={styles.button}>
-            <Text style={styles.buttonText}>Here</Text>
+            <Text style={styles.buttonText}></Text>
           </View>
         </TouchableOpacity> 
+        }
+        <Text>Your reaction time: {this.state.counter}ms</Text>
         </View>
     );
   }
@@ -35,7 +76,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginBottom: 25,
-    width: 100,
+    width: 150,
     alignItems: 'center',
     backgroundColor: '#2196F3',
     justifyContent: 'center',
