@@ -29,6 +29,7 @@ export default class MainScreen extends Component {
     title: 'Home',
   };
 
+
   goToScreen = (screenName) => {
     Navigation.push(this.props.componentId, {
       component: {

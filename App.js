@@ -18,7 +18,6 @@ export default class App extends Component<Props> {
       <View style={styles.container}>
         <TouchableOpacity style={styles.container}>
         <Text>Quiz</Text>
-
         </TouchableOpacity>
       </View>
     );

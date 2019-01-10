@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Navigation } from 'react-native-navigation';
 var moment = require('moment');
 
 export default class GameScreen extends Component{
@@ -32,51 +33,47 @@ export default class GameScreen extends Component{
     this.setState({timer});
   }
 
-  componentWillUnmount(){
-    clearInterval(this.state.timer);
-    this.stop();
-    clearImmediate
+    componentWillUnmount(){
+      clearTimeout(this.state.temp);
+      clearInterval(this.state.timer);
+    }
+  
+  start() {
+    let appearTime = moment().valueOf();
+    this.setState({
+             beginTime: appearTime
+         })
   }
-
-start() {
-  let appearTime = moment().valueOf();
-  this.setState({
-           beginTime: appearTime
-       })
-}
-
-update() {
-  let timer = setInterval(() => {
-    this.setState({
-      counter: this.state.endTime - this.state.beginTime,
-      tempTime: endTime,
-      endTime: moment().valueOf()
-    })
-  }, 10);
-  this.setState({timer});
-}
-stop(){
-  clearInterval(this.state.timer);
-}
-
-  _onPressButton = () => {
-    let clickTime = moment().valueOf();
-    this.setState({
-      isHidden: !this.state.isHidden,
-      tempTime: clickTime,
-      counter: 0
-    });
-    setTimeout(() => {
+  
+  update() {
+    let timer = setInterval(() => {
+      this.setState({
+        counter: this.state.endTime - this.state.beginTime,
+        tempTime: endTime,
+        endTime: moment().valueOf()
+      })
+    }, 10);
+    this.setState({timer});
+  }
+  
+  
+    _onPressButton = () => {
+      let clickTime = moment().valueOf();
       this.setState({
         isHidden: !this.state.isHidden,
-      })
-      this.update();
-      this.start();
-      this.stop();
-  }, 5000);
-  }
-
-
+        tempTime: clickTime,
+        counter: 0
+      });
+      let temp = setTimeout(() => {
+        this.setState({
+          isHidden: !this.state.isHidden,
+        })
+        this.update();
+        this.start();
+        clearInterval(this.state.timer);
+    }, 5000);
+    this.setState({temp})
+    }
 
   render() {
     return (
