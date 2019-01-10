@@ -7,42 +7,57 @@ export default class GameScreen extends Component<Props>{
     super(props);
     this.state = {
       isHidden: true,
-      timer: null,
+      //timer: null,
       counter: 0
     }
   }
 
   componentDidMount() {
-    this.start();
     setTimeout(() => {
       this.setState({
         isHidden: !this.state.isHidden
       })
-  }, 1500);
-}
+    }, 1500);
+    setTimeout(() => {
+      this.start();
+    },1501);
+  }
+
+  componentWillUnmount(){
+    clearInterval(this.state.timer);
+  }
+
 start() {
   var self = this;
+  if(this.state.isHidden === false){
   let timer = setInterval(() => {
     this.setState({
-      counter: this.state.counter + 1
+      counter: this.state.counter + 10
     })
-      var num = Number(this.state.miliseconds) + 1
-          
-  }, 0);
+  }, 1);
   this.setState({timer});
+}
+// else{
+//   clearInterval();
+//   this.setState({
+//     counter: 0
+//   })
+// }
 }
 
 
   _onPressButton = () => {
-   
+    clearInterval(this.state.timer);
     this.setState({
       isHidden: !this.state.isHidden,
     });
     setTimeout(() => {
       this.setState({
         isHidden: !this.state.isHidden,
+        counter: 0
       })
-  }, 1000);
+      this.start();
+  }, 5000);
   }
 
 
@@ -56,11 +71,13 @@ start() {
           :
           <TouchableOpacity onPress={this._onPressButton}>
           <View style={styles.button}>
-            <Text style={styles.buttonText}></Text>
+            <Text style={styles.buttonText}>Click me</Text>
           </View>
-        </TouchableOpacity> 
+        </TouchableOpacity>
+        
         }
-        <Text>Your reaction time: {this.state.counter}ms</Text>
+        <Text style={styles.reactionText}>Your reaction time: {this.state.counter}ms</Text>
+        
         </View>
     );
   }
@@ -84,6 +101,10 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     padding: 20,
+    fontSize: 20,
     color: 'white'
+  },
+  reactionText: {
+    fontSize: 20
   }
 });
