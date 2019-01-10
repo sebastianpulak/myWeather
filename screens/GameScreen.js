@@ -1,62 +1,78 @@
 import React, {Component} from 'react';
 import {Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+var moment = require('moment');
 
-export default class GameScreen extends Component<Props>{
+export default class GameScreen extends Component{
 
   constructor(props) {
     super(props);
     this.state = {
+      timer: null,
       isHidden: true,
-      //timer: null,
-      counter: 0
+      beginTime: moment().valueOf(),
+      endTime: moment().valueOf(),
+      tempTime: moment().valueOf()
     }
   }
 
+
   componentDidMount() {
     setTimeout(() => {
+      this.start();
       this.setState({
         isHidden: !this.state.isHidden
       })
     }, 1500);
-    setTimeout(() => {
-      this.start();
-    },1501);
+    let timer = setInterval(() => {
+      this.setState({
+        counter: this.state.endTime - this.state.beginTime,
+        endTime: moment().valueOf()
+      })
+    }, 10);
+    this.setState({timer});
   }
 
   componentWillUnmount(){
     clearInterval(this.state.timer);
+    this.stop();
+    clearImmediate
   }
 
 start() {
-  var self = this;
-  if(this.state.isHidden === false){
+  let appearTime = moment().valueOf();
+  this.setState({
+           beginTime: appearTime
+       })
+}
+
+update() {
   let timer = setInterval(() => {
     this.setState({
-      counter: this.state.counter + 10
+      counter: this.state.endTime - this.state.beginTime,
+      tempTime: endTime,
+      endTime: moment().valueOf()
     })
-  }, 1);
+  }, 10);
   this.setState({timer});
 }
-// else{
-//   clearInterval();
-//   this.setState({
-//     counter: 0
-//   })
-// }
+stop(){
+  clearInterval(this.state.timer);
 }
 
-
   _onPressButton = () => {
-    clearInterval(this.state.timer);
+    let clickTime = moment().valueOf();
     this.setState({
       isHidden: !this.state.isHidden,
+      tempTime: clickTime,
+      counter: 0
     });
     setTimeout(() => {
       this.setState({
         isHidden: !this.state.isHidden,
-        counter: 0
       })
+      this.update();
       this.start();
+      this.stop();
   }, 5000);
   }
 
@@ -67,16 +83,22 @@ start() {
       <View style={styles.container}>
         {
           this.state.isHidden ? 
-          <View></View>
-          :
-          <TouchableOpacity onPress={this._onPressButton}>
           <View style={styles.button}>
-            <Text style={styles.buttonText}>Click me</Text>
           </View>
+          :
+          <View style={styles.button}>
+          <TouchableOpacity onPress={this._onPressButton}>
+            <Text style={styles.buttonText}>Click me</Text>
         </TouchableOpacity>
         
+        </View>   
         }
-        <Text style={styles.reactionText}>Your reaction time: {this.state.counter}ms</Text>
+        {
+          this.state.isHidden ? 
+          <Text style={styles.reactionText}>Your reaction time: {this.state.tempTime - this.state.beginTime}ms </Text>
+          :
+          <Text style={styles.reactionText}>Your reaction time: {this.state.counter}ms </Text>
+        }
         
         </View>
     );
