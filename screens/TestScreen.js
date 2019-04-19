@@ -31,7 +31,7 @@ export default class TestScreen extends React.Component {
   }
 
   callApi(){
-    return fetch('https://api.openweathermap.org/data/2.5/weather?q='+ this.state.inputCity + '&appid=5cacdcffc387b9b5dd7ec2505797e494')
+    return fetch('https://api.openweathermap.org/data/2.5/weather?q='+ this.state.inputCity + '&units=metric&appid=5cacdcffc387b9b5dd7ec2505797e494')
       .then((response) => response.json())
       .then((responseJson) => {
         this.setState({
@@ -87,7 +87,7 @@ export default class TestScreen extends React.Component {
         </TouchableOpacity>
 
         <Text style={styles.textViewContainer} > City: {this.state.dataSource.name}</Text>
-        <Text style={styles.textViewContainer} > Temperature: {Math.floor(this.state.dataSource.main.temp - 272)}℃</Text>
+        <Text style={styles.textViewContainer} > Temperature: {Math.round(this.state.dataSource.main.temp)}℃</Text>
         <Text style={styles.textViewContainer} > Humidity: {this.state.dataSource.main.humidity}%</Text>
         <Text style={styles.textViewContainer} > Pressure: {this.state.dataSource.main.pressure} hPa</Text>
         <Text style={styles.textViewContainer} > Wind speed: {this.state.dataSource.wind.speed} km/h</Text>
