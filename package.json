@@ -1,5 +1,5 @@
 {
-  "name": "Reaction Time",
+  "name": "Reaction_Time",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -9,6 +9,7 @@
   "dependencies": {
     "moment": "^2.23.0",
     "react": "16.6.0-alpha.8af6728",
+    "react-json-pretty": "^2.1.0",
     "react-native": "0.57.4",
     "react-native-drawer": "^2.5.1",
     "react-native-linear-gradient": "^2.5.3",

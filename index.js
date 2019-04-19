@@ -2,13 +2,14 @@
 
 import { Navigation } from "react-native-navigation";
 import MainScreen from './screens/MainScreen';
-import GameScreen from './screens/GameScreen';
 import SideMenu from './screens/SideMenu';
+import TestScreen from './screens/TestScreen';
+
 import { Dimensions }   from 'react-native';
 
 Navigation.registerComponent('MainScreen', () => MainScreen);
-Navigation.registerComponent('GameScreen', () => GameScreen);
 Navigation.registerComponent('SideMenu', () => SideMenu);
+Navigation.registerComponent('TestScreen', () => TestScreen);
 
 
 

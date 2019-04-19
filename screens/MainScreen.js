@@ -12,16 +12,16 @@ import { Navigation } from 'react-native-navigation';
 import FtreScreen from './FtueScreen';
 const names = Platform.select({
   android:
-    'Krystian Lisowski\n' +
+    'Sebastian Pulak\n' +
     'and\n'+
-    'Sebastian Pulak'
+    'Piotr Gębski'
 });
 
 
 export default class MainScreen extends Component {
   state = {
     names: [
-      { 'name': 'Play', 'id': 1, 'test': 'GameScreen' },
+      { 'name': 'Test screen', 'id': 1, 'test': 'TestScreen' },
     ]
   }
 
@@ -42,10 +42,10 @@ export default class MainScreen extends Component {
     return (
       <View style={styles.container}>
       <Image
-          style={{width: 100, height: 100}}
-          source={{uri: 'http://icons.iconarchive.com/icons/icons8/android/512/Measurement-Units-Time-icon.png'}}
+          style={{width: 150, height: 150}}
+          source={{uri: 'https://cdn4.iconfinder.com/data/icons/weather-line-set/24/icn-weather-scattered-showers-512.png'}}
         />
-        <Text style={styles.logo}>Response Time App </Text>
+        <Text style={styles.logo}>MyWeather App </Text>
         <Text style={styles.create}>Created by: </Text>
         <Text style={styles.names}>{names}</Text>
         <ScrollView>
