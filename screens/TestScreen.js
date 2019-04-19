@@ -21,7 +21,7 @@ export default class TestScreen extends React.Component {
     super(props);
     this.state = {
       isLoading: true,
-      inputCity: 'London'
+      inputCity: 'London',
     }
   }
    
@@ -72,9 +72,9 @@ export default class TestScreen extends React.Component {
         </View>
       );
     }
- 
+    
+    if(this.state.dataSource.cod===200){
     return (
-      
       <View style={styles.container}>
       <TextInput
           style={styles.buttonViewContainer}
@@ -94,6 +94,25 @@ export default class TestScreen extends React.Component {
         <Text style={styles.textViewContainer} > Cloudiness: {this.state.dataSource.clouds.all}%</Text>
       </View>
     );
+    }
+    else {
+      return (
+        <View style={styles.container}>
+      <TextInput
+          style={styles.buttonViewContainer}
+          placeholder="Type in the city you want to check!"
+          onChangeText={(inputCity) => this.setState({inputCity})}
+        />
+
+        <TouchableOpacity style={styles.button} onPress={this.onPress}>
+        <Text style={styles.textViewContainer}>Search</Text>
+        </TouchableOpacity>
+
+        <Text style={styles.textViewContainer}>Incorrect city name</Text>
+
+      </View>
+    );
+    }
   }
   }
    
@@ -119,7 +138,7 @@ export default class TestScreen extends React.Component {
   textViewContainer: {
    textAlignVertical:'center', 
    padding:10,
-   fontSize: 30,
+   fontSize: 25,
    color: '#fff',
    
    
