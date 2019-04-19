@@ -89,8 +89,8 @@ export default class TestScreen extends React.Component {
         <Text style={styles.textViewContainer} > City: {this.state.dataSource.name}</Text>
         <Text style={styles.textViewContainer} > Temperature: {Math.floor(this.state.dataSource.main.temp - 272)}℃</Text>
         <Text style={styles.textViewContainer} > Humidity: {this.state.dataSource.main.humidity}%</Text>
-        <Text style={styles.textViewContainer} > Pressure: {this.state.dataSource.main.pressure}hPa</Text>
-        <Text style={styles.textViewContainer} > Wind speed: {this.state.dataSource.wind.speed}km/h</Text>
+        <Text style={styles.textViewContainer} > Pressure: {this.state.dataSource.main.pressure} hPa</Text>
+        <Text style={styles.textViewContainer} > Wind speed: {this.state.dataSource.wind.speed} km/h</Text>
         <Text style={styles.textViewContainer} > Cloudiness: {this.state.dataSource.clouds.all}%</Text>
       </View>
     );
