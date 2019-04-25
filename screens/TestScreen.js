@@ -7,24 +7,26 @@
  */
 
 import React, {Component} from 'react';
-import { AppRegistry, StyleSheet, ActivityIndicator, TouchableOpacity, Text, View, Platform, TextInput} from 'react-native';
-import { green } from 'ansi-colors';
-
-
-
-
+import { AppRegistry, StyleSheet, ActivityIndicator, TouchableOpacity, Text, View, TextInput, Image} from 'react-native';
+import { Navigation } from 'react-native-navigation';
+var moment = require('moment');
 
 export default class TestScreen extends React.Component {
 
-
+  
   constructor(props) {
     super(props);
     this.state = {
       isLoading: true,
       inputCity: 'London',
+      cityName: 'London',
+      iconUrl: 'http://openweathermap.org/img/w/',
+      dateString: moment.unix(1556226000).format("MM/DD/YYYY")
     }
+    this.handleChange = this.handleChange.bind(this);
   }
    
+  
    
   componentDidMount() {
    this.callApi();
@@ -44,31 +46,33 @@ export default class TestScreen extends React.Component {
         console.error(error);
       });
   }
-   
-  ListViewItemSeparator = () => {
-    return (
-      <View
-        style={{
-   
-          height: .5,
-          width: "100%",
-          backgroundColor: "#000",
-   
-        }}
-      />
-    );
-  }
 
   onPress = () => {
     this.callApi();
+    this.setState({
+      cityName: this.state.inputCity
+    })
+  }
+
+  handleChange() {
+    this.setState({inputCity: inputCity});
+  }
+
+  goToScreen = (screenName) => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: screenName
+      }
+    })
+    this.changeState()
   }
    
    
   render() {
     if (this.state.isLoading) {
       return (
-        <View style={{flex: 1, paddingTop: 20}}>
-          <ActivityIndicator />
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <ActivityIndicator size={'large'}/>
         </View>
       );
     }
@@ -85,13 +89,19 @@ export default class TestScreen extends React.Component {
         <TouchableOpacity style={styles.button} onPress={this.onPress}>
         <Text style={styles.textViewContainer}>Search</Text>
         </TouchableOpacity>
+        <Text style={styles.cityText} > {this.state.cityName} </Text>
 
-        <Text style={styles.textViewContainer} > City: {this.state.dataSource.name}</Text>
-        <Text style={styles.textViewContainer} > Temperature: {Math.round(this.state.dataSource.main.temp)}℃</Text>
+        <View style={styles.container2}>
+        <Text style={styles.textViewContainer} > {Math.round(this.state.dataSource.main.temp)}℃ 
+        <Image style={{height: 40, width: 40}} source={{uri: this.state.iconUrl + this.state.dataSource.weather[0].icon+'.png'}}></Image></Text>
         <Text style={styles.textViewContainer} > Humidity: {this.state.dataSource.main.humidity}%</Text>
         <Text style={styles.textViewContainer} > Pressure: {this.state.dataSource.main.pressure} hPa</Text>
-        <Text style={styles.textViewContainer} > Wind speed: {this.state.dataSource.wind.speed} km/h</Text>
+        <Text style={styles.textViewContainer} > Wind: {this.state.dataSource.wind.speed} km/h</Text>
         <Text style={styles.textViewContainer} > Cloudiness: {this.state.dataSource.clouds.all}%</Text>
+        <TouchableOpacity style={styles.button2}  onPress={() => this.goToScreen('HourlyScreen')}>
+        <Text style={styles.textViewContainer}>Hourly forecast</Text>
+        </TouchableOpacity>
+        </View>
       </View>
     );
     }
@@ -120,10 +130,14 @@ export default class TestScreen extends React.Component {
    
   container: {
     flex: 1,
-    paddingTop: 60,
+    paddingTop: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#b9bca6',
+    backgroundColor: '#c1d7ff',
+  },
+  container2: {
+    flexDirection: 'column',
+    flexWrap: 'wrap'
   },
 
   button: {
@@ -134,15 +148,29 @@ export default class TestScreen extends React.Component {
     justifyContent: 'center',
     borderRadius: 40
   },
+  button2: {
+    marginBottom: 25,
+    width: 200,
+    alignItems: 'center',
+    backgroundColor: '#2196F3',
+    justifyContent: 'center',
+    borderRadius: 40
+  },
    
   textViewContainer: {
    textAlignVertical:'center', 
    padding:10,
-   fontSize: 25,
-   color: '#fff',
-   
-   
+   fontSize: 20,
+   color: '#053f60',
   },
+
+  cityText: {
+    textAlignVertical:'center', 
+    padding:10,
+    fontSize: 40,
+    color: '#053f60',
+   },
+  
   buttonViewContainer: {
    marginBottom: 25,
    textAlignVertical:'center', 
