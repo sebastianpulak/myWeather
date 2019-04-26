@@ -15,7 +15,7 @@ class SideMenu extends Component {
     state = {
         names: [
           { 'name': 'Home', 'id': 1, 'test': 'MainScreen' },
-          { 'name': 'Test', 'id': 1, 'test': 'TestScreen' },
+          { 'name': 'Test', 'id': 2, 'test': 'TestScreen' },
         ]
       }
     

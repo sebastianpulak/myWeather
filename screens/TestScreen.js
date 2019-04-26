@@ -23,7 +23,6 @@ export default class TestScreen extends React.Component {
       iconUrl: 'http://openweathermap.org/img/w/',
       dateString: moment.unix(1556226000).format("MM/DD/YYYY")
     }
-    this.handleChange = this.handleChange.bind(this);
   }
    
   
@@ -54,18 +53,7 @@ export default class TestScreen extends React.Component {
     })
   }
 
-  handleChange() {
-    this.setState({inputCity: inputCity});
-  }
 
-  goToScreen = (screenName) => {
-    Navigation.push(this.props.componentId, {
-      component: {
-        name: screenName
-      }
-    })
-    this.changeState()
-  }
    
    
   render() {
@@ -98,9 +86,6 @@ export default class TestScreen extends React.Component {
         <Text style={styles.textViewContainer} > Pressure: {this.state.dataSource.main.pressure} hPa</Text>
         <Text style={styles.textViewContainer} > Wind: {this.state.dataSource.wind.speed} km/h</Text>
         <Text style={styles.textViewContainer} > Cloudiness: {this.state.dataSource.clouds.all}%</Text>
-        <TouchableOpacity style={styles.button2}  onPress={() => this.goToScreen('HourlyScreen')}>
-        <Text style={styles.textViewContainer}>Hourly forecast</Text>
-        </TouchableOpacity>
         </View>
       </View>
     );

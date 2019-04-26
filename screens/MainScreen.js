@@ -21,7 +21,8 @@ const names = Platform.select({
 export default class MainScreen extends Component {
   state = {
     names: [
-      { 'name': 'Test screen', 'id': 1, 'test': 'TestScreen' },
+      { 'name': 'Current weather', 'id': 1, 'test': 'TestScreen' },
+      { 'name': 'Hourly forecast', 'id': 2, 'test': 'HourlyScreen' },
     ]
   }
 
@@ -86,7 +87,7 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: 'center',
-    fontSize: 30,
+    fontSize: 20,
     padding: 20,
     color: 'white'
   },

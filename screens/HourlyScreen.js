@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import { AppRegistry, StyleSheet, ActivityIndicator, TouchableOpacity, Text, View, Image, ScrollView, Dimensions} from 'react-native';
+import { AppRegistry, StyleSheet, ActivityIndicator, TouchableOpacity, Text, View, Image, ScrollView, Dimensions,TextInput} from 'react-native';
 import { Navigation } from 'react-native-navigation';
 var width = Dimensions.get('window').width; //full width
 var height = Dimensions.get('window').height; //full height
@@ -21,14 +21,13 @@ export default class HourlyScreen extends React.Component {
     super(props);
     this.state = {
       isLoading: true,
-      iconUrl: 'http://openweathermap.org/img/w/',
-      dateString: moment.unix(1556226000).format("MM/DD/YYYY")
+      inputCity: 'London',
+      cityName: 'London',
+      iconUrl: 'http://openweathermap.org/img/w/'
     }
   }
    
-  login() {    
-    this.props.changeState;
-  }
+
    
   componentDidMount() {
    this.callApi();
@@ -50,10 +49,12 @@ export default class HourlyScreen extends React.Component {
   }
 
   onPress = () => {
-    this.callApi();
     this.setState({
+      isLoading: true,
       cityName: this.state.inputCity
     })
+    this.callApi();
+    
   }
 
   goToScreen = (screenName) => {
@@ -74,13 +75,15 @@ export default class HourlyScreen extends React.Component {
       );
     }
 
+    if(this.state.dataSource.cod==200){
     let rowsOfTiles = [];
     let row = [];
     for (let i = 0; i < this.state.dataSource.list.length; i++) {
       row.push(
         <View key={i}>
           <TouchableOpacity style={styles.tile}>
-            <Text style={styles.tileTextName}>{this.state.dataSource.list[i].dt_txt}      {Math.round(this.state.dataSource.list[i].main.temp)}℃ 
+            <Text style={styles.tileTextName}>{moment.unix(this.state.dataSource.list[i].dt).format("DD.MM.YYYY HH:mm")}</Text>
+            <Text style={styles.tileTemp}> {Math.round(this.state.dataSource.list[i].main.temp)}℃
             <Image style={{height: 40, width: 40}} source={{uri: this.state.iconUrl + this.state.dataSource.list[i].weather[0].icon+'.png'}}></Image></Text>
           </TouchableOpacity> 
         </View>
@@ -99,32 +102,64 @@ export default class HourlyScreen extends React.Component {
         )
       } 
     }
-
-
+  
     return (
-        <ScrollView style={styles.container}>
-        <Text style={styles.tileTextName}>{this.state.cityName}</Text>
+        <ScrollView contentContainerStyle={styles.container}>
+        <TextInput
+          style={styles.buttonViewContainer}
+          placeholder="Type in the city you want to check!"
+          onChangeText={(inputCity) => this.setState({inputCity})}
+        />
+
+        <TouchableOpacity style={styles.button} onPress={this.onPress}>
+        <Text style={styles.textViewContainer}>Search</Text>
+        </TouchableOpacity>
+        <Text style={styles.cityText} > {this.state.cityName} </Text>
         {rowsOfTiles} 
       </ScrollView>  
     );
+} else {
+  return (
+    <View style={styles.container}>
+  <TextInput
+      style={styles.buttonViewContainer}
+      placeholder="Type in the city you want to check!"
+      onChangeText={(inputCity) => this.setState({inputCity})}
+    />
+
+    <TouchableOpacity style={styles.button} onPress={this.onPress}>
+    <Text style={styles.textViewContainer}>Search</Text>
+    </TouchableOpacity>
+
+    <Text style={styles.textViewContainer}>Incorrect city name</Text>
+
+  </View>
+);
 }
+  } 
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flexGrow: 1,
+        paddingTop: 50,
+        alignItems: 'center',
+        justifyContent: 'center'
       },
       tile: {
         width: width,
         height: 100,
         margin: 2,
         justifyContent: 'center',
+        flexDirection: 'row',
+        alignItems: 'center',
         borderRadius: 4,
         borderWidth: 0.3,
         borderColor: '#838c99',
         
       },
       rowOfTiles: {
+        flex: 1,
         flexDirection: 'row',
         justifyContent: 'flex-start'
       },
@@ -137,8 +172,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         margin: 10
       },
-      tileTextPlace: {
-        fontSize: 20,
+      tileTemp: {
+        fontSize: 30,
         textAlign: 'center'
       },
       tileTextPlus: {
@@ -157,5 +192,45 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         //paddingTop: 20,
         
-      }
+      },
+      button: {
+        marginBottom: 25,
+        width: 150,
+        alignItems: 'center',
+        backgroundColor: '#2196F3',
+        justifyContent: 'center',
+        borderRadius: 40
+      },
+      button2: {
+        marginBottom: 25,
+        width: 200,
+        alignItems: 'center',
+        backgroundColor: '#2196F3',
+        justifyContent: 'center',
+        borderRadius: 40
+      },
+       
+      textViewContainer: {
+       textAlignVertical:'center', 
+       padding:10,
+       fontSize: 20,
+       color: '#053f60',
+      },
+    
+      cityText: {
+        textAlignVertical:'center', 
+        padding:10,
+        fontSize: 40,
+        color: '#053f60',
+       },
+      
+      buttonViewContainer: {
+       marginBottom: 25,
+       textAlignVertical:'center', 
+       padding:10,
+       fontSize: 20,
+       borderRadius: 10,
+       backgroundColor: '#2196F3',
+        
+       }
 });
